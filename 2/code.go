@@ -5,13 +5,13 @@ import (
 	"bufio"
 	"log"
 	"os"
-	"strconv"
+	//"strconv"
 )
 
 var (
 	// 1, 2 or 3
-	part int = 3
-	sample bool = false
+	part int = 1
+	sample bool = true
 )
 
 func helper(val int) int {
@@ -22,33 +22,28 @@ func helper(val int) int {
 	}
 }
 
-func partone(s []int) (ans int) {
+type Submarine struct {
+	depth int
+	position int
+	aim int
+}
+
+func partone(s []string) (ans int) {
 	ans = 1
-	increased := -1
-	value := 0
-	for _, v := range s {
-		if v > value {
-			increased += 1
-		}
-		value = v
-		//fmt.Println(v, increased)
+	depth := 0
+	position := 0
+	//fmt.Println(s)
+	for _, row := range s {
+		//strconv.Atoi(row)
+		fmt.Println(row[1])//, task, num)
 	}
-	ans = increased
+	ans = depth * position
 	//fmt.Println("Part one:", ans)
 	return ans
 }
 
-func parttwo(s []int) (ans int) {
+func parttwo(s []string) (ans int) {
 	ans = 2
-	var slice []int
-	for i, _ := range s {
-		if i < len(s) - 2 {
-			subsum := s[i] + s[i+1] + s[i+2]
-			slice = append(slice, subsum)
-			//fmt.Println(i, v)
-		}
-	}
-	ans = partone(slice)
 	//mt.Println("Part two:", ans)
 	return ans
 }
@@ -63,17 +58,13 @@ func main() {
 		log.Fatal(err)
 	}
 	defer file.Close()
-	var s []int
+	var s []string
 	var t string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		t = scanner.Text()
-		if n, err := strconv.Atoi(t); err == nil {
-		  s = append(s, n)
-		} else {
-		  fmt.Println(t, "is not an integer.")
-		}
-		//fmt.Println(s)
+		s = append(s, t)
+		fmt.Println(s)
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
