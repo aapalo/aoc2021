@@ -2,6 +2,7 @@
 
 My solutions for [Advent of code](https://adventofcode.com/2021) programming puzzles.
 
-Copy the 0 folder to make a new one for each day:
-cp -avr ./0 ./99
 
+
+Screenshot from [maurits.vdschee.nl](https://www.maurits.vdschee.nl/scatterplot/) showing the global leaderboard for each day: 
+![](./scatter.png) 

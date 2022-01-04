@@ -6,73 +6,52 @@ import (
 	"log"
 	"os"
 	"strconv"
+	//"strings"
 )
 
 var (
 	// 1, 2 or 3
-	part int = 3
-	sample bool = false
+	//part int = 3
+	//sample bool = false
 )
 
-func helper(val int) int {
-	if sample {
-		return 1
-	} else {
-		return 0
-	}
-}
-
-func partone(s []int) (ans int) {
+func partone(s []string) (ans int) {
 	ans = 1
-	increased := -1
-	value := 0
-	for _, v := range s {
-		if v > value {
-			increased += 1
-		}
-		value = v
-		//fmt.Println(v, increased)
-	}
-	ans = increased
 	//fmt.Println("Part one:", ans)
 	return ans
 }
 
-func parttwo(s []int) (ans int) {
+func parttwo(s []string) (ans int) {
 	ans = 2
-	var slice []int
-	for i, _ := range s {
-		if i < len(s) - 2 {
-			subsum := s[i] + s[i+1] + s[i+2]
-			slice = append(slice, subsum)
-			//fmt.Println(i, v)
-		}
-	}
-	ans = partone(slice)
 	//mt.Println("Part two:", ans)
 	return ans
 }
 
 func main() {
-	var filename string = "./input.txt"
-	if sample {
-		filename = "./sample.txt"
+	var filename string = "./sample.txt" //"./input.txt"
+	notsample := 0
+	part := 3
+	if len(os.Args) > 1 {
+		part, _ = strconv.Atoi(os.Args[1])
 	}
+	if len(os.Args) > 2 {
+		notsample, _ = strconv.Atoi(os.Args[2])
+	}
+	if notsample != 0 {
+		filename = "./input.txt"
+	}
+	fmt.Println("Part:", part, filename)
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
-	var s []int
+	var s []string
 	var t string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		t = scanner.Text()
-		if n, err := strconv.Atoi(t); err == nil {
-		  s = append(s, n)
-		} else {
-		  fmt.Println(t, "is not an integer.")
-		}
+		s = append(s, t)
 		//fmt.Println(s)
 	}
 	if err := scanner.Err(); err != nil {

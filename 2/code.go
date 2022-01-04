@@ -5,28 +5,15 @@ import (
 	"bufio"
 	"log"
 	"os"
-	//"strconv"
+	"strings"
+	"strconv"
 )
 
 var (
 	// 1, 2 or 3
-	part int = 1
-	sample bool = true
+	//part int = 2
+	//sample bool = true
 )
-
-func helper(val int) int {
-	if sample {
-		return 1
-	} else {
-		return 0
-	}
-}
-
-type Submarine struct {
-	depth int
-	position int
-	aim int
-}
 
 func partone(s []string) (ans int) {
 	ans = 1
@@ -35,7 +22,19 @@ func partone(s []string) (ans int) {
 	//fmt.Println(s)
 	for _, row := range s {
 		//strconv.Atoi(row)
-		fmt.Println(row[1])//, task, num)
+		r := strings.Split(row, " ")
+		val, _ := strconv.Atoi(r[1])
+		//fmt.Println(r[0], r[1])//, task, num)
+		if r[0] == "forward" {
+			position += val
+		} else if r[0] == "back" {
+			position -= val
+		} else if r[0] == "up" {
+			depth -= val
+		} else if r[0] == "down" {
+			depth += val
+		}
+		//break
 	}
 	ans = depth * position
 	//fmt.Println("Part one:", ans)
@@ -43,16 +42,49 @@ func partone(s []string) (ans int) {
 }
 
 func parttwo(s []string) (ans int) {
-	ans = 2
-	//mt.Println("Part two:", ans)
+		ans = 1
+		depth := 0
+		position := 0
+		aim := 0
+		//fmt.Println(s)
+		for _, row := range s {
+			//strconv.Atoi(row)
+			r := strings.Split(row, " ")
+			val, _ := strconv.Atoi(r[1])
+			//fmt.Println(r[0], r[1])//, task, num)
+			if r[0] == "forward" {
+				position += val
+				depth += val * aim
+			} else if r[0] == "back" {
+				position -= val
+			} else if r[0] == "up" {
+				aim -= val
+				if aim < 0 {
+					aim = 0
+				}
+			} else if r[0] == "down" {
+				aim += val
+			}
+	}
+	ans = depth * position
+	//fmt.Println("Part one:", ans)
 	return ans
 }
 
 func main() {
-	var filename string = "./input.txt"
-	if sample {
-		filename = "./sample.txt"
+	var filename string = "./sample.txt" //"./input.txt"
+	notsample := 0
+	part := 3
+	if len(os.Args) > 1 {
+		part, _ = strconv.Atoi(os.Args[1])
 	}
+	if len(os.Args) > 2 {
+		notsample, _ = strconv.Atoi(os.Args[2])
+	}
+	if notsample != 0 {
+		filename = "./input.txt"
+	}
+	fmt.Println("Part:", part, filename)
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
@@ -64,7 +96,7 @@ func main() {
 	for scanner.Scan() {
 		t = scanner.Text()
 		s = append(s, t)
-		fmt.Println(s)
+		//fmt.Println(s)
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
